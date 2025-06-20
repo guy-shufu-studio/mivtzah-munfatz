@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מבצע מונפץ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>מבצע מונפץ</h1>
+        <p class="subtitle">עד כמה אתם מכירים את היסטורית המבצעים של צה״ל?</p>
+        
+        <div id="game-area" style="display: none;">
+            <div class="stats-container">
+                <div id="score-container">
+                    ניקוד: <span id="score">0</span>
+                </div>
+                <div id="timer-container">
+                    זמן נותר: <span id="timer">60</span>
+                </div>
+            </div>
+            
+            <div id="question-container">
+                <h2 id="operation-name"></h2>
+            </div>
+            
+            <div id="buttons-container">
+                <button class="btn" id="real-btn">אמיתי</button>
+                <button class="btn" id="fake-btn">מונפץ</button>
+            </div>
+            
+            <div id="feedback-container">
+                <p id="feedback-text"></p>
+                <p id="feedback-info"></p>
+            </div>
+        </div>
+
+        <!-- End-game elements that will be shown/hidden -->
+        <div id="end-game-container">
+             <button class="btn blue-btn" id="start-btn">שחק!</button>
+             <button class="btn blue-btn" id="next-btn" style="display: none;">השאלה הבאה</button>
+
+             <!-- Name Entry Form -->
+             <form id="name-entry-container" style="display: none;">
+                <p class="share-title">כל הכבוד! הכניסו את שמכם לטבלת המובילים:</p>
+                <input type="text" id="player-name-input" placeholder="השם שלכם" maxlength="15" required>
+                <button type="submit" class="btn blue-btn">שמירה</button>
+             </form>
+
+             <!-- Social Share Container -->
+             <div id="social-share-container" style="display: none;">
+                <p class="share-title">נהנית? שתף עם חברים!</p>
+                <div class="social-icons">
+                    <a href="#" id="share-facebook" class="social-icon" target="_blank" aria-label="Share on Facebook">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.32 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
+                    </a>
+                    <a href="#" id="share-twitter" class="social-icon" target="_blank" aria-label="Share on Twitter">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.84C20.33,8.63 20.33,8.42 20.32,8.21C21.17,7.63 21.88,6.87 22.46,6Z"/></svg>
+                    </a>
+                    <a href="#" id="share-linkedin" class="social-icon" target="_blank" aria-label="Share on LinkedIn">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 13,11.11V10.29H10.13V18.5H13V13.57C13,12.24 14.09,11.25 15.24,11.25C16.39,11.25 17.25,12.24 17.25,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 8,5.19 6.88,5.19C5.76,5.19 5.19,6 5.19,6.88A1.68,1.68 0 0,0 6.88,8.56M8.27,18.5V10.29H5.5V18.5H8.27Z"/></svg>
+                    </a>
+                    <a href="#" id="share-whatsapp" class="social-icon" target="_blank" aria-label="Share on WhatsApp">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.35 3.45 16.86L2.05 22L7.31 20.6C8.75 21.39 10.36 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 6.45 17.5 2 12.04 2M16.56 15.26C16.31 15.56 15.06 16.19 14.63 16.34C14.19 16.49 13.56 16.54 13.22 16.39C12.87 16.24 11.97 15.91 10.93 14.96C9.63 13.76 9.03 12.46 8.88 12.16C8.73 11.86 8.88 11.66 9.03 11.51C9.17 11.36 9.32 11.16 9.47 11C9.62 10.85 9.67 10.75 9.82 10.5C9.97 10.25 9.92 10.05 9.82 9.85C9.72 9.65 9.22 8.35 9.03 7.9C8.83 7.45 8.63 7.5 8.48 7.5C8.33 7.5 8.13 7.5 7.93 7.5C7.73 7.5 7.43 7.55 7.18 7.85C6.93 8.15 6.23 8.8 6.23 10.1C6.23 11.4 7.23 12.65 7.38 12.85C7.53 13.05 8.73 14.99 10.63 15.84C12.53 16.69 13.56 16.64 14.19 16.59C14.81 16.54 16.06 15.86 16.31 15.56Z"/></svg>
+                    </a>
+                    <a href="#" id="share-telegram" class="social-icon" target="_blank" aria-label="Share on Telegram">
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M9.5,16.5L8.74,12.93L15.43,9.84L12.07,13.1L9.5,16.5M10.1,12.5L10.5,15.2L11.1,13.2L14.3,10.5L10.1,12.5Z" /></svg>
+                    </a>
+                </div>
+             </div>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div id="leaderboard-container" style="display: none;">
+            <h2>טבלת המובילים היומית</h2>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>מקום</th>
+                        <th>שם</th>
+                        <th>ניקוד</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="operations-data.js"></script>
+    <script src="game-logic.js"></script>
+</body>
+</html>
